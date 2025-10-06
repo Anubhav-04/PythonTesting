@@ -3,6 +3,9 @@ pipeline {
     environment {
         VERCEL_TOKEN = credentials('VERCEL_TOKEN')
     }
+    tools {
+        nodejs "NodeJS"
+    }
     options {
         skipDefaultCheckout(true)
     }
