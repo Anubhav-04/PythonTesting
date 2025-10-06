@@ -19,21 +19,21 @@ pipeline {
         stage('Bulding App') {
             steps {
                 sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
-                    pip install pytest
-                    pip install pytest-cov
+                    python3 -m venv .venv
+                    . .venv/bin/activate
+                    pip install -U pip
+                    pip install -r requirements.txt
                 '''
             }
         }
         stage('Run Tests') {
             steps {
-                sh 'pytest'
+                sh 'python3 -m pytest'
             }
         }
         stage('Run Test for code coverage') {
             steps {
-                sh 'pytest --cov'
+                sh 'python3 pytest --cov'
             }
         }
     }
