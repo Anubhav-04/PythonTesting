@@ -22,20 +22,7 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Approval') {
-            steps {
-                timeout(1) {
-                    script {
-                        input message: 'Approve to proceed?', ok: 'Approve'
-                    }
-                }
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-        }
-        }
+        
         stage('Bulding App') {
             steps {
                 sh '''
