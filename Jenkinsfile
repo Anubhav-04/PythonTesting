@@ -3,19 +3,38 @@ pipeline {
     environment {
         VERCEL_TOKEN = credentials('vercel_token')
     }
+     tools {
+        nodejs "NodeJS"   // Use the NodeJS version configured in Jenkins
+    }
     options {
         skipDefaultCheckout(true)
     }
     stages {
         stage('Pre-clean') {
             steps {
+                // Clean workspace before code checkout
                 cleanWs()
             }
         }
         stage('Checkout') {
             steps {
+                // Check out your code from SCM
                 checkout scm
             }
+        }
+        stage('Approval') {
+            steps {
+                timeout(1) {
+                    script {
+                        input message: 'Approve to proceed?', ok: 'Approve'
+                    }
+                }
+            }
+        }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+        }
         }
         stage('Bulding App') {
             steps {
