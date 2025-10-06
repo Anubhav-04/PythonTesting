@@ -1,11 +1,11 @@
 pipeline {
     agent any
+    environment {
+        VERCEL_TOKEN = credentials('vercel_token')
+    }
     options {
         skipDefaultCheckout(true)
     }
-    environment {
-    VERCEL_TOKEN = credentials('vercel_token')
-  }
     stages {
         stage('Pre-clean') {
             steps {
