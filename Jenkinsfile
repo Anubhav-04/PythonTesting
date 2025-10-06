@@ -21,6 +21,7 @@ pipeline {
                 sh '''
                     python3 -m venv venv
                     . venv/bin/activate
+                    pip install pytest
                     pip install pytest-cov
                 '''
             }
