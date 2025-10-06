@@ -19,10 +19,17 @@ jobs:
             python-version: '3.12.4'
 
        - name: Install pytest
-         run: pip install pytest
+         run: 
+            pip install pytest
+            pip install pytest-cov
 
        - name: Run tests
          run: pytest
+
+       - name: Running pytest for code coverage
+         run: pytest --cov
+
+       
         
 
 
