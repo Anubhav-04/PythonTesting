@@ -1,0 +1,26 @@
+name: Testing and Code coverage
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  Testing-and-code-coverage:
+    runs-on: ubuntu-latest
+
+    steps:
+       - name: Code checkout
+         uses: actions/checkout@v4
+
+       - name: Setup python3
+         uses: actions/setup-python@v6
+         with:
+            python-version: '3.12.4'
+
+       - name: Run tests
+         run: pytest
+        
+
+
+
