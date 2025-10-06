@@ -30,10 +30,16 @@ jobs:
        - name: Generating Html report from code coverage
          run: pytest --cov --cov-report=html
 
+       - name: Upload Html report 
+         uses: actions/upload-artifact@v4
+         with:
+          name: html_code_coverage
+          path: htmlcov/
+
        - name: Downloading the generated Html report
          uses: actions/download-artifact@v5
          with:
-             name: htmlcov
+             name: html_code_coverage
              path: htmlcov
 
        
