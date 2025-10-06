@@ -3,16 +3,17 @@ pipeline {
     options {
         skipDefaultCheckout(true)
     }
+    environment {
+    VERCEL_TOKEN = credentials('vercel_token')
+  }
     stages {
         stage('Pre-clean') {
             steps {
-                // Clean workspace before code checkout
                 cleanWs()
             }
         }
         stage('Checkout') {
             steps {
-                // Check out your code from SCM
                 checkout scm
             }
         }
@@ -42,5 +43,31 @@ pipeline {
                 '''
             }
         }
+        stage('Generate html report for code coverage') {
+            steps {
+                sh '''
+                    . .venv/bin/activate
+                    python3 -m pytest --cov --cov-report=html
+                '''
+            }
+        }
+        post {
+        always {
+          archiveArtifacts artifacts: 'htmlcov/**', allowEmptyArchive: true
+          junit allowEmptyResults: true, testResults: '**/junit/*.xml'
+        }
+      }
     }
-}
+        stage('Install Vercel CLI') {
+            steps {
+                sh 'npm install -g vercel'
+            }
+        }
+        stage('Deploy to Vercel') {
+            steps {
+                dir('htmlcov') {
+                    sh 'vercel --prod --token=$VERCEL_TOKEN --confirm --name=code_coverage'
+                }
+            }
+        }
+    }
