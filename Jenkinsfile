@@ -37,6 +37,7 @@ pipeline {
         stage('Run Test for code coverage') {
             steps {
                 sh '''
+                    . .venv/bin/activate
                     python3 -m pytest --cov
                 '''
             }
