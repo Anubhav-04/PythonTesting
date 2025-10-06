@@ -33,7 +33,7 @@ jobs:
        - name: Downloading the generated Html report
          uses: actions/download-artifact@v5
          with:
-             name: Html_Code_coverage
+             name: htmlcov
              path: htmlcov
 
        
