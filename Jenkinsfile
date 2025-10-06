@@ -37,7 +37,7 @@ pipeline {
         stage('Run Test for code coverage') {
             steps {
                 sh '''
-                    python3 pytest --cov
+                    python3 -m pytest --cov
                 '''
             }
         }
