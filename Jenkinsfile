@@ -58,16 +58,33 @@ pipeline {
         }
       }
     }
-        stage('Install Vercel CLI') {
-            steps {
-                sh 'npm install -g vercel'
-            }
-        }
-        stage('Deploy to Vercel') {
-            steps {
-                dir('htmlcov') {
-                    sh 'vercel --prod --token=$VERCEL_TOKEN --confirm --name=code_coverage'
-                }
-            }
-        }
+
+    stage('Install Vercel CLI') {
+      steps {
+        sh '''
+          set -e
+          # Prefer project-local CLI for reproducibility
+          npm install --no-audit --no-fund --save-dev vercel
+        '''
+      }
     }
+
+    stage('Link Vercel project') {
+      steps {
+        sh '''
+          set -e
+          npx vercel link --project code_coverage --token="$VERCEL_TOKEN" --yes
+        '''
+      }
+    }
+
+    stage('Deploy coverage report') {
+      steps {
+        sh '''
+          set -e
+          # Deploy the generated HTML coverage folder
+          npx vercel --prod --token="$VERCEL_TOKEN" --confirm --cwd "$(pwd)/htmlcov"
+        '''
+      }
+    }
+  }
