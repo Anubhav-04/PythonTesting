@@ -18,6 +18,9 @@ jobs:
          with:
             python-version: '3.12.4'
 
+       - name: Install pytest
+         run: pip install pytest
+
        - name: Run tests
          run: pytest
         
