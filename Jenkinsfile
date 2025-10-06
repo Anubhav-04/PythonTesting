@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        VERCEL_TOKEN = credentials('vercel_token')
+        VERCEL_TOKEN = credentials('VERCEL_TOKEN')
     }
      tools {
         nodejs "NodeJS"   // Use the NodeJS version configured in Jenkins
