@@ -27,6 +27,15 @@ jobs:
        - name: Running pytest for code coverage
          run: pytest --cov
 
+       - name: Generating Html report from code coverage
+         run: pytest --cov --cov-report=html
+
+       - name: Downloading the generated Html report
+         uses: actions/download-artifact@v5
+         with:
+             name: Html_Code_coverage
+             path: htmlcov
+
        
         
 
